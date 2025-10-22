@@ -1,4 +1,3 @@
-
 import { Schema, model, Document } from 'mongoose';
 import { z } from 'zod';
 
@@ -54,7 +53,7 @@ export enum MessageType {
 
 export interface Message extends Document {
   roomId: string;
-  userId: number;
+  userId: string;
   username: string;
   content: string;
   messageType: string;
@@ -67,7 +66,7 @@ export interface Message extends Document {
 
 const messageSchema = new Schema({
   roomId: { type: String, required: true },
-  userId: { type: Number, required: true },
+  userId: { type: String, required: true },
   username: { type: String, required: true },
   content: { type: String, required: true },
   messageType: { type: String, default: 'text' },

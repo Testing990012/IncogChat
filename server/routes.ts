@@ -372,15 +372,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create message
       const messageData: InsertMessage = {
         roomId: selectedUser.roomId,
-        userId: selectedUser.id,
+        userId: selectedUser._id.toString(),  // Convert ObjectId to string
         username: selectedUser.username,
         content: fileType === 'image' ? 'Sent an image' : 'Sent a file: ' + req.file.originalname,
         messageType: fileType,
         fileUrl: uploadResult.url,
         fileName: req.file.originalname,
         fileSize: req.file.size,
-        mimeType: req.file.mimetype
+        mimeType: req.file.mimetype,
+        timestamp: new Date()
       };
+      
+      console.log('Creating message with data:', messageData);
       
       const message = await storage.addMessage(messageData);
       

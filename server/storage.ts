@@ -92,7 +92,17 @@ class MongoStorage implements IStorage {
   }
 
   async addMessage(message: Partial<Message>): Promise<Message> {
-    return await MessageModel.create(message);
+    try {
+      console.log('Adding message:', message);
+      const newMessage = await MessageModel.create({
+        ...message,
+        timestamp: message.timestamp || new Date()
+      });
+      return newMessage;
+    } catch (error) {
+      console.error('Error adding message:', error);
+      throw error;
+    }
   }
 
   async getMessagesByRoom(roomId: string): Promise<Message[]> {
